@@ -1,4 +1,4 @@
-<? #Выгрузка базы в GIT
+<?
 
 add_log('Using session ' . $session . ', backup dir ' . $bkp_dir, 1);
 set_curr_session($session);
@@ -37,7 +37,7 @@ else
 $lastuser = false;
 $lastaction = false;
 $accepted = array('PACKAGE', 'PACKAGE BODY', 'TABLE', 'VIEW', 'SYNONYM', 'JOB', 'FUNCTION', 'VIEW', 'TABLE', 'INDEX',
-  'SNAPSHOT', 'SEQUENCE', 'PROCEDURE', 'TRIGGER', 'OBJECT PRIVILEGE', 'SYSTEM PRIVILEGE', 'ROLE PRIVILEGE', 'TYPE','GRANT');
+  'SNAPSHOT', 'SEQUENCE', 'PROCEDURE', 'TRIGGER', 'OBJECT PRIVILEGE', 'SYSTEM PRIVILEGE', 'ROLE PRIVILEGE', 'TYPE', 'GRANT');
 $objectsobjects = array('PACKAGE', 'PACKAGE BODY', 'FUNCTION', 'PROCEDURE', 'TRIGGER');
 
 if (!$last_event_id)
@@ -55,8 +55,8 @@ if (!$last_event_id)
 if ($last_event_id)
 {
   $sql = "select count(1) as cnt from magic.ddllog where sysevent in('COMMENT','GRANT','ALTER','CREATE','TRUNCATE','DROP') and event_id>:id and dict_obj_owner not in ('SYS','SYSMAN')";
-  if ($test)
-    $sql .= " where owner='EAS_RU_3_23'";
+  #if ($test)
+  #  $sql .= " where owner='EAS_RU_3_23'";
   add_log($sql, 1);
   $conn = get_connect();
   $stid = oci_parse($conn, $sql);
@@ -66,8 +66,8 @@ if ($last_event_id)
 else
 {
   $sql = 'select count(1) as cnt from all_objects';
-  if ($test)
-    $sql .= " where owner='EAS_RU_3_23'";
+  #if ($test)
+  #  $sql .= " where owner='EAS_RU_3_23'";
   add_log($sql, 1);
   $stid = oracle_query($sql, false, 1);
 }
@@ -136,7 +136,6 @@ else
       $new_last_event_id = $row['EVENT_ID'];
 
 
-
       if ($row['SYSEVENT'] === 'DROP')
         $action = 'Drop';
       else
@@ -183,7 +182,8 @@ else
       }
     }
 
-    $name = strtolower(convert_db_encoding($row['OBJECT_NAME'])); //it will be used in file names, should be UTF.
+    #$name = strtolower(convert_db_encoding($row['OBJECT_NAME'])); //it will be used in file names, should be UTF.
+    $name = strtolower($row['OBJECT_NAME']); //it will be used in file names, should be UTF.
     $type = strtolower($row['OBJECT_TYPE']);
     $owner_dir = $bkp_dir . strtolower($row['OWNER']) . '/';
     $type_dir = $owner_dir . $type . '/';
@@ -249,7 +249,7 @@ else
       ###
       if ($type == 'grant')
       {
-        update_grants($bkp_dir,$row['OWNER'], $this_update_begin_time, 1);
+        update_grants($bkp_dir, $row['OWNER'], $this_update_begin_time, 1);
       }
       if ($type == 'table')
       {

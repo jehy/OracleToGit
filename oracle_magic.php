@@ -17,7 +17,7 @@ function set_log($fname)
   if ($fname)
   {
     $CURR_LOG = date('Y-m-d H-i-s ') . $fname . '.html';
-    add_log('Пользователь: ' . $_REQUEST['clogin'] . ' (' . $_SERVER['REMOTE_ADDR'] . '), ' . date('Y-m-d H:i:s'), 0);
+    add_log('РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ: ' . $_REQUEST['clogin'] . ' (' . $_SERVER['REMOTE_ADDR'] . '), ' . date('Y-m-d H:i:s'), 0);
   }
   else
     $CURR_LOG = '';
@@ -53,7 +53,7 @@ function get_failover_connect($id)
   $res = false;
   $i = 0;
   $c = $CONNECTS[$id];
-  add_log('<div>Устанавливаем коннект к ' . $c['tns'] . $c['connect'] . '.</div>', 0);
+  add_log('<div>РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РєРѕРЅРЅРµРєС‚ Рє ' . $c['tns'] . $c['connect'] . '.</div>', 0);
   while ($res == false && $i < 10)
   {
     if ($c['tns'])
@@ -64,10 +64,10 @@ function get_failover_connect($id)
     {
       $i++;
       $e = oci_error();
-      add_log('<br>Коннект не удался (' . htmlentities($e['message'], ENT_QUOTES) . '). Обождём и попытаем счастья снова (' . $c['scheme'] . '@' . $c['connect'] . ')', DEBUG);
+      add_log('<br>РљРѕРЅРЅРµРєС‚ РЅРµ СѓРґР°Р»СЃСЏ (' . htmlentities($e['message'], ENT_QUOTES) . '). РћР±РѕР¶РґС‘Рј Рё РїРѕРїС‹С‚Р°РµРј СЃС‡Р°СЃС‚СЊСЏ СЃРЅРѕРІР° (' . $c['scheme'] . '@' . $c['connect'] . ')', DEBUG);
       if (MAX_CONNECT_TIME && ((time() - $time1) > MAX_CONNECT_TIME))
       {
-        add_log('<div class="error">Исчерпано максимальное время на подключение.</div>', DEBUG);
+        add_log('<div class="error">РСЃС‡РµСЂРїР°РЅРѕ РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ РІСЂРµРјСЏ РЅР° РїРѕРґРєР»СЋС‡РµРЅРёРµ.</div>', DEBUG);
         break;
       }
       flush();
@@ -77,15 +77,15 @@ function get_failover_connect($id)
     else
       return $res;
   }
-  add_log('<div class="error">Исчерпан временной интервал подключения.</div>', DEBUG);
+  add_log('<div class="error">РСЃС‡РµСЂРїР°РЅ РІСЂРµРјРµРЅРЅРѕР№ РёРЅС‚РµСЂРІР°Р» РїРѕРґРєР»СЋС‡РµРЅРёСЏ.</div>', DEBUG);
   if (!TRY_RESUME_ON_NO_DB)
   {
-    add_log('<div class="error">Терминация</div>', DEBUG);
-    die('Ведутся работы на сервисе, он будет вновь доступен в кратчайшее время.');
+    add_log('<div class="error">РўРµСЂРјРёРЅР°С†РёСЏ</div>', DEBUG);
+    die('Р’РµРґСѓС‚СЃСЏ СЂР°Р±РѕС‚С‹ РЅР° СЃРµСЂРІРёСЃРµ, РѕРЅ Р±СѓРґРµС‚ РІРЅРѕРІСЊ РґРѕСЃС‚СѓРїРµРЅ РІ РєСЂР°С‚С‡Р°Р№С€РµРµ РІСЂРµРјСЏ.');
   }
   else
   {
-    add_log('<div class="error">Пробуем работать, несмотря ни на что.</div>', DEBUG);
+    add_log('<div class="error">РџСЂРѕР±СѓРµРј СЂР°Р±РѕС‚Р°С‚СЊ, РЅРµСЃРјРѕС‚СЂСЏ РЅРё РЅР° С‡С‚Рѕ.</div>', DEBUG);
     return false;
   }
 }
@@ -135,7 +135,7 @@ function oracle_query($sql, $conn = false, $noecho = 0, $log = 1, $count = 0)
   $x2 = stripos($sql, 'delete');
   if ($x1 !== FALSE && ($x1 < 5) || $x2 !== FALSE && ($x2 < 5))
     $count = 1;
-  // нужно считать количество затронутых строк
+  // РЅСѓР¶РЅРѕ СЃС‡РёС‚Р°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°С‚СЂРѕРЅСѓС‚С‹С… СЃС‚СЂРѕРє
   if ($log)
     add_log($sql, 0);
   if (!$conn)
@@ -347,20 +347,20 @@ function get_matview($name, $owner = 0)
 
 function get_table($name, $owner = 0)
 {
-  if(stripos($name,'ORA_TMP')!==FALSE)
+  if (stripos($name, 'ORA_TMP') !== FALSE)
   {
-    add_log('Temporary table, skipping',1);
+    add_log('Temporary table, skipping', 1);
     return false;
   }
-  if(strpos($name,'DBMS_TABCOMP')!==FALSE)
+  if (strpos($name, 'DBMS_TABCOMP') !== FALSE)
   {
-    add_log('Temporary table, skipping',1);
+    add_log('Temporary table, skipping', 1);
     return false;
   }
 
   if (strpos($name, '==') !== FALSE)
   {
-    add_log('System oracle table, skipping',1);
+    add_log('System oracle table, skipping', 1);
     return false;
   }
   global $GET_TABLES_PREPARED;
@@ -383,7 +383,7 @@ function get_tables()
   $arr = get_user_objects('TABLE');
   $arr2 = array();
   foreach ($arr as $name)
-    if($val=get_table($name))
+    if ($val = get_table($name))
       $arr2[$name] = $val;
   return $arr2;
 }
@@ -412,7 +412,7 @@ function get_types()
   $arr = get_user_objects('TYPE');
   $arr2 = array();
   foreach ($arr as $name)
-    if($val=get_type($name))
+    if ($val = get_type($name))
       $arr2[$name] = $val;
   return $arr2;
 }
@@ -424,8 +424,8 @@ function get_view($name, $owner = 0)
 
 function get_object_with_metadata($type, $name, $owner = 0)
 {
-  if(constant('VERBOSE'))
-    add_log('Getting object ('.$type.' '. $owner .'.'.$name. ') source',1);
+  if (constant('VERBOSE'))
+    add_log('Getting object (' . $type . ' ' . $owner . '.' . $name . ') source', 1);
   if (!$owner)
   {
     $sql = "select sys_context( 'userenv', 'current_schema') from dual";
@@ -437,21 +437,21 @@ function get_object_with_metadata($type, $name, $owner = 0)
   $sql = "select  dbms_metadata.get_ddl (:type,:name,:owner2) from dual";
 
   $conn = get_connect();
-  if(constant('VERBOSE'))
-    add_log('Parsing',1);
+  if (constant('VERBOSE'))
+    add_log('Parsing', 1);
   $stid = oci_parse($conn, $sql);
   oci_bind_by_name($stid, ":type", $type);
   oci_bind_by_name($stid, ":owner2", $owner2);
   oci_bind_by_name($stid, ":name", $name);
-  if(constant('VERBOSE'))
-    add_log('Executing',1);
+  if (constant('VERBOSE'))
+    add_log('Executing', 1);
   oci_execute($stid);
 
   $row = oci_fetch_row($stid);
   #$name = strtolower($name);
   $blo = false;
-  if(constant('VERBOSE'))
-    add_log('Reading blob',1);
+  if (constant('VERBOSE'))
+    add_log('Reading blob', 1);
   if (is_object($row[0]))
   {
     $blo = $row[0]->read(1024 * 1024); #1 MB object. Should not be more.
@@ -460,16 +460,16 @@ function get_object_with_metadata($type, $name, $owner = 0)
       $blo = $blo2;
   }
   oci_free_statement($stid);
-  if(constant('VERBOSE'))
-    add_log('Got source',1);
+  if (constant('VERBOSE'))
+    add_log('Got source', 1);
   return $blo;
 }
 
 function get_type($name, $owner = 0)
 {
-  if(strpos($name,'SYS_PLSQL')!==FALSE)
+  if (strpos($name, 'SYS_PLSQL') !== FALSE)
   {
-    add_log('Ignoring system type "'.$name.'"',1);
+    add_log('Ignoring system type "' . $name . '"', 1);
     return false;
   }
   return get_object_with_metadata('TYPE', $name, $owner);
@@ -557,7 +557,7 @@ function get_invalid_objects($owner = '', $extra = 1)
   $stid = oci_parse($conn, $sql);
   if ($owner)
   {
-    $owner = '%'.strtoupper($owner).'%';
+    $owner = '%' . strtoupper($owner) . '%';
     oci_bind_by_name($stid, ":owner", $owner);
   }
   oci_execute($stid);
@@ -568,12 +568,12 @@ function get_invalid_objects($owner = '', $extra = 1)
     if ($row['OBJECT_TYPE'] == 'SYNONYM')
     {
       if ($extra)
-        add_log('Внимание: синоним-инвалид: ' . $row['OWNER'] . '.' . $row['OBJECT_NAME'] . '<br>', 1);
+        add_log('Р’РЅРёРјР°РЅРёРµ: СЃРёРЅРѕРЅРёРј-РёРЅРІР°Р»РёРґ: ' . $row['OWNER'] . '.' . $row['OBJECT_NAME'] . '<br>', 1);
     }
-    if (in_array($row['OBJECT_TYPE'],array('PACKAGE BODY','TYPE BODY')))
+    if (in_array($row['OBJECT_TYPE'], array('PACKAGE BODY', 'TYPE BODY')))
     {
-      $o=explode(' ',$row['OBJECT_TYPE']);
-      $sql = 'ALTER '.$o[0].' ' . $row['OWNER'] . '.' . $row['OBJECT_NAME'] . ' compile body';
+      $o = explode(' ', $row['OBJECT_TYPE']);
+      $sql = 'ALTER ' . $o[0] . ' ' . $row['OWNER'] . '.' . $row['OBJECT_NAME'] . ' compile body';
     }
     else
       $sql = 'ALTER ' . $row['OBJECT_TYPE'] . ' ' . $row['OWNER'] . '.' . $row['OBJECT_NAME'] . ' compile';
@@ -689,21 +689,21 @@ function get_user($owner = 0)
 
 function get_synonyms($owner = 0)
 {
-  if($owner==='PUBLIC')
+  if ($owner === 'PUBLIC')
   {
-    add_log('Skipping PUBLIC synonyms',1);//too fucken many of them
+    add_log('Skipping PUBLIC synonyms', 1); //too fucken many of them
     return false;
   }
-  if(constant('VERBOSE'))
-    add_log('Getting user objects (synonyms)',1);
+  if (constant('VERBOSE'))
+    add_log('Getting user objects (synonyms)', 1);
   $arr = get_user_objects('SYNONYM', $owner);
   $arr2 = array();
-  if(constant('VERBOSE'))
-    add_log('Got user objects (synonyms), getting their source',1);
+  if (constant('VERBOSE'))
+    add_log('Got user objects (synonyms), getting their source', 1);
   foreach ($arr as $name)
     $arr2[$name] = get_synonym($name, $owner);
-  if(constant('VERBOSE'))
-    add_log('Got user objects (synonyms) source',1);
+  if (constant('VERBOSE'))
+    add_log('Got user objects (synonyms) source', 1);
   return $arr2;
 }
 
@@ -728,17 +728,18 @@ function get_owner_from_grant_query($sql)
     }
     else
       $val = substr($val, 0, $pos);
-    $sql[$key]=$val;
+    $sql[$key] = $val;
   }
   $sql = implode(' ', $sql);
-  $sql2=explode($sql,' TO ');#for GRANT query
-  if(sizeof($sql2)!=2)
-    $sql2=explode($sql,' FROM ');#for REVOKE query
-  if(sizeof($sql2)!=2)
+  $sql2 = explode($sql, ' TO '); #for GRANT query
+  if (sizeof($sql2) != 2)
+    $sql2 = explode($sql, ' FROM ');
+  #for REVOKE query
+  if (sizeof($sql2) != 2)
     return FALSE;
-  $owner=$sql2[1];
-  while(($o=trim($owner))!=$owner)
-    $owner=$o;
+  $owner = $sql2[1];
+  while (($o = trim($owner)) != $owner)
+    $owner = $o;
   return $o;
 }
 
@@ -818,7 +819,7 @@ function show_query_result($stid, $format = 'table', $count = 0)
   {
     $rows = oci_num_rows($stid);
     if ($rows !== false)
-      $rows = $rows . ' строк затронуто';
+      $rows = $rows . ' СЃС‚СЂРѕРє Р·Р°С‚СЂРѕРЅСѓС‚Рѕ';
   }
   if ($format == 'table')
   {
@@ -886,7 +887,6 @@ function show_query_result($stid, $format = 'table', $count = 0)
 }
 
 
-
 function alter_constraints($owner, $mode)
 {
   if ($mode)
@@ -911,7 +911,7 @@ function alter_constraints($owner, $mode)
       when others then
         null;
     end;
-  END LOOP;    
+  END LOOP;
 END;";
   oracle_query($sql);
 }
@@ -1145,8 +1145,8 @@ function update_matview($bkp_dir, $name, $owner, $this_update_begin_time)
 
 function update_synonyms($bkp_dir, $owner, $this_update_begin_time)
 {
-  if(constant('VERBOSE'))
-    add_log('Updating synonyms',1);
+  if (constant('VERBOSE'))
+    add_log('Updating synonyms', 1);
   $owner_dir = $bkp_dir . 'data/' . strtolower($owner) . '/';
   @mkdir($owner_dir, 0777, 1);
   $file = $owner_dir . 'synonyms.sql';
@@ -1157,8 +1157,8 @@ function update_synonyms($bkp_dir, $owner, $this_update_begin_time)
     else
       @unlink($file);
   }
-  if(constant('VERBOSE'))
-    add_log('Synonums updated',1);
+  if (constant('VERBOSE'))
+    add_log('Synonums updated', 1);
 }
 
 function update_constraints($bkp_dir, $owner, $this_update_begin_time)
@@ -1242,6 +1242,7 @@ function update_tablespaces($bkp_dir)
     file_put_contents($file, $val);
   }
 }
+
 /*
  *
  */
@@ -1258,4 +1259,5 @@ function update_dblinks($bkp_dir)
       file_put_contents($file, $val);
     }
 }
+
 ?>
