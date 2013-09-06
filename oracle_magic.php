@@ -64,10 +64,10 @@ function get_failover_connect($id)
     {
       $i++;
       $e = oci_error();
-      add_log('<br>Коннект не удался (' . htmlentities($e['message'], ENT_QUOTES) . '). Обождём и попытаем счастья снова (' . $c['scheme'] . '@' . $c['connect'] . ')', DEBUG);
+      add_log('<br>Connect failed (' . htmlentities($e['message'], ENT_QUOTES) . '). Let us wait and try again (' . $c['scheme'] . '@' . $c['connect'] . ')', DEBUG);
       if (MAX_CONNECT_TIME && ((time() - $time1) > MAX_CONNECT_TIME))
       {
-        add_log('<div class="error">Исчерпано максимальное время на подключение.</div>', DEBUG);
+        add_log('<div class="error">Max time for connection expired.</div>', DEBUG);
         break;
       }
       flush();
@@ -77,17 +77,17 @@ function get_failover_connect($id)
     else
       return $res;
   }
-  add_log('<div class="error">Исчерпан временной интервал подключения.</div>', DEBUG);
+  add_log('<div class="error">Max time for connection expired.</div>', DEBUG);/*
   if (!TRY_RESUME_ON_NO_DB)
   {
-    add_log('<div class="error">Терминация</div>', DEBUG);
-    die('Ведутся работы на сервисе, он будет вновь доступен в кратчайшее время.');
+    add_log('<div class="error">Termination</div>', DEBUG);
+    die('Service is unavailable right now');
   }
   else
   {
-    add_log('<div class="error">Пробуем работать, несмотря ни на что.</div>', DEBUG);
+    add_log('<div class="error">Trying to work...</div>', DEBUG);
     return false;
-  }
+  }*/
 }
 
 function get_connect()
