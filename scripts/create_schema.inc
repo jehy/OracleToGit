@@ -1,7 +1,7 @@
 -- Create the user
 create user MAGIC identified by "YOUR_PASSWORD"
-default tablespace EIAS
-temporary tablespace TEMP01
+default tablespace APP_TABLESPACE --your tablespace name
+temporary tablespace TEMP_TABLESPACE --your temporary tablespace name
 profile DEFAULT;
 -- Grant/Revoke object privileges
 --grant select on DBA_MVIEWS to MAGIC;
