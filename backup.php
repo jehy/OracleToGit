@@ -1,5 +1,8 @@
 <?
-
+if (!file_exists('settings.php'))
+  die('Please, set up "settings.php" file first!');
+include_once 'settings.php';
+include_once 'oracle_magic.php';
 add_log('Using session ' . $session . ', backup dir ' . $bkp_dir, 1);
 set_curr_session($session);
 $this_update_begin_time = time();
@@ -336,7 +339,7 @@ else
 }
 add_log("Pushing to remote repo...", 1);
 //send_git($bkp_dir,'git push git_ora master');
-send_git($bkp_dir, 'git push github master');
+send_git($bkp_dir, 'git push backup master');
 add_log('Complete time: ' . date('H:i:s'), 1);
 if ($new_last_event_id)
   file_put_contents($bkp_dir . 'last_time.txt', $new_last_event_id . "\n" . $cur_time);
