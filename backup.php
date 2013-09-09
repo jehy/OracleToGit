@@ -1,8 +1,12 @@
 <?
-if (!file_exists('settings.php'))
-  die('Please, set up "settings.php" file first!');
-include_once 'settings.php';
+$file=$argv[1];
+$file='settings/'.pathinfo ($file,PATHINFO_FILENAME).'.php';
+
+if (!file_exists($file))
+  die('Please, set up settings file first!');
+include_once($file);
 include_once 'oracle_magic.php';
+$session=$CURR_SESSION;
 add_log('Using session ' . $session . ', backup dir ' . $bkp_dir, 1);
 set_curr_session($session);
 $this_update_begin_time = time();

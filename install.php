@@ -135,7 +135,7 @@ $path = 'ext/geshi/geshi/';
 
     <p>Now we need to set up connection settings for PHP script.</p>
 
-    <p>Copy the following code to new file "doc/settings.php" and change default connect settings to the ones for your
+    <p>Copy the following code to new file "settings/default.php" and change default connect settings to the ones for your
         database with the newly created "magic" schema.</p>
   <?
   $query = file_get_contents('scripts/settings.php');
@@ -163,7 +163,7 @@ $path = 'ext/geshi/geshi/';
 
     <p>Open your server console and launch backup.php script. It may take long for your first export.</p>
   <?
-  $query = 'php "/web/oracle2git/backup.php"';
+  $query = 'php "/web/oracle2git/backup.php" "default"';
   $geshi = new GeSHi($query, "bash", $path);
   $geshi->enable_keyword_links(false);
 // and simply dump the code!
@@ -183,7 +183,7 @@ $path = 'ext/geshi/geshi/';
         to every five minutes. It would look like
 
       <?
-      $query = '*/5 * * * * php "/web/oracle2git/backup.php" >/dev/null 2>&1';
+      $query = '*/5 * * * * php "/web/oracle2git/backup.php" "default" >/dev/null 2>&1';
       $geshi = new GeSHi($query, "bash", $path);
       $geshi->enable_keyword_links(false);
 // and simply dump the code!
