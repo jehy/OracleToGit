@@ -149,7 +149,16 @@ $path = 'ext/geshi/geshi/';
 
     <p>Now you need to associate your backup directory with the git repository. Init repository, make first clean commit
         and push it to remote server. Please, use remote repository (github, bitbucket or any other) with "master"
-        branch. Remote repo should be called "backup".</p>
+        branch. Remote repo should be called "backup". Also, add there ".gitignore" file with the following lines:
+      <?
+      $query = file_get_contents('scripts/ignore_repo.inc');
+      $geshi = new GeSHi($query, "bash", $path);
+      $geshi->enable_keyword_links(false);
+// and simply dump the code!
+      echo $geshi->parse_code();
+      ?>
+
+    </p>
 
 
     <h1>7. Set up permissions</h1>
