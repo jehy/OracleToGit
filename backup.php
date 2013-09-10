@@ -169,6 +169,8 @@ else
     {
       if (strpos($row['OBJECT_TYPE'], 'PRIVILEGE') !== FALSE)
       {
+        if(stripos($row['OBJECT_NAME'],'SYS_PLSQL_')===0)
+          continue;
         //get owner from parsing blob data
         if (is_object($row['DDL']))
         {
