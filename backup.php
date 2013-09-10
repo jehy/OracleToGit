@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?
 $file=$argv[1];
 $file=dirname(__FILE__).'/settings/'.pathinfo ($file,PATHINFO_FILENAME).'.php';
