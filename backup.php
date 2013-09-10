@@ -344,9 +344,6 @@ else
     add_log("Base exported!", 1);
   }
 }
-add_log("Pushing to remote repo...", 1);
-//send_git($bkp_dir,'git push git_ora master');
-send_git($bkp_dir, 'git push backup master');
 add_log('Complete time: ' . date('H:i:s'), 1);
 if ($new_last_event_id)
   file_put_contents($bkp_dir . 'last_time.txt', $new_last_event_id . "\n" . $cur_time);
