@@ -1,11 +1,11 @@
 <?
 $file=$argv[1];
-$file='settings/'.pathinfo ($file,PATHINFO_FILENAME).'.php';
+$file=dirname(__FILE__).'/settings/'.pathinfo ($file,PATHINFO_FILENAME).'.php';
 
 if (!file_exists($file))
   die('Please, set up settings file first!');
 include_once($file);
-include_once 'oracle_magic.php';
+include_once dirname(__FILE__).'/oracle_magic.php';
 $session=$CURR_SESSION;
 add_log('Using session ' . $session . ', backup dir ' . $bkp_dir, 1);
 set_curr_session($session);
