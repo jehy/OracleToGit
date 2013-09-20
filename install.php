@@ -7,7 +7,7 @@ $language = 'plsql';
 $path = 'ext/geshi/geshi/';
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <title>Oracle 2 Git</title>
@@ -135,7 +135,8 @@ $path = 'ext/geshi/geshi/';
 
     <p>Now we need to set up connection settings for PHP script.</p>
 
-    <p>Copy the following code to new file "settings/default.php" and change default connect settings to the ones for your
+    <p>In this example, all PHP code is extracted to application directory "/web/oracle2git". Copy the following code to
+        new file "settings/default.php" and change default connect settings to the ones for your
         database with the newly created "magic" schema.</p>
   <?
   $query = file_get_contents('scripts/settings.php');
@@ -186,20 +187,56 @@ $path = 'ext/geshi/geshi/';
     <p>Just repeat the same command you used for primary export.</p>
 
 
-    <h1>10. Set up regular export</h1>
+    <h1>10. Push your repo to remote repositary</h1>
 
-    <p>Now you just need to set up a crontab script to regularly launch secondary export script. I'd recommend to set it
-        to every five minutes. It would look like
-
-      <?
-      $query = '*/5 * * * * php "/web/oracle2git/backup.php" "default" >/dev/null 2>&1';
-      $geshi = new GeSHi($query, "bash", $path);
-      $geshi->enable_keyword_links(false);
+  <?
+  $query = 'php "/web/oracle2git/push.php" "default"';
+  $geshi = new GeSHi($query, "bash", $path);
+  $geshi->enable_keyword_links(false);
 // and simply dump the code!
-      echo $geshi->parse_code();
-      ?>
-    </p>
+  echo $geshi->parse_code();
+  ?>
 
+    <p>It should work okay if you correctly completed step 6.</p>
+
+    <h1>11. Set up regular export</h1>
+
+    <p>Now you just need to set up a crontab script to regularly launch secondary export script and push script. Those
+        are represented as two different scripts because obviously you don't need to sync as often as you update your
+        local repo. It would just make unneccessary traffic. I'd recommend to set it backupto every five minutes and
+        push to every hour. You need to make two bash scripts with backup and push commands, for example,</p>
+
+    <p><b>/root/backup_default.sh</b></p>
+  <?
+  $query = '#!/bin/bash
+php /web/oracle2git/backup.php default';
+  $geshi = new GeSHi($query, "bash", $path);
+  $geshi->enable_keyword_links(false);
+// and simply dump the code!
+  echo $geshi->parse_code();
+  ?>
+    <p>and</p>
+
+    <p><b>/root/push_default.sh</b></p>
+  <?
+  $query = '#!/bin/bash
+php /web/oracle2git/push.php default';
+  $geshi = new GeSHi($query, "bash", $path);
+  $geshi->enable_keyword_links(false);
+// and simply dump the code!
+  echo $geshi->parse_code();
+  ?>
+
+    <p>Make sure that your bash and php files have right permissions for execution. And, the last thing - make it a <a
+            href="https://en.wikipedia.org/wiki/Cron">cron</a> job:</p>
+  <?
+  $query = '*/5 * * * * php /root/backup_default.sh
+00 * * * * php /root/push_default.sh';
+  $geshi = new GeSHi($query, "bash", $path);
+  $geshi->enable_keyword_links(false);
+// and simply dump the code!
+  echo $geshi->parse_code();
+  ?>
 
     <h1>Ready!</h1>
 </div>
