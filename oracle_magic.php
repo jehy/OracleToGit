@@ -25,9 +25,9 @@ function set_log($fname)
 
 if (!function_exists('convert_db_encoding'))
 {
-  if ($LOGS_CONVERSION)
+  function convert_db_encoding($smth)
   {
-    function convert_db_encoding($smth)
+    if ($LOGS_CONVERSION['to'] && $LOGS_CONVERSION['from'])
     {
       if (is_array($smth))
       {
@@ -38,10 +38,8 @@ if (!function_exists('convert_db_encoding'))
         $smth = mb_convert_encoding($smth, $LOGS_CONVERSION['to'], $LOGS_CONVERSION['from']);
       return $smth;
     }
-  }
-  else
-  {
-    function convert_db_encoding($smth)
+
+    else
     {
       return $smth;
     }
