@@ -203,7 +203,7 @@ $path = 'ext/geshi/geshi/';
 
     <p>Now you just need to set up a crontab script to regularly launch secondary export script and push script. Those
         are represented as two different scripts because obviously you don't need to sync as often as you update your
-        local repo. It would just make unneccessary traffic. I'd recommend to set it backupto every five minutes and
+        local repo. It would just make unneccessary traffic. I'd recommend to set it backup to every five minutes and
         push to every hour. You need to make two bash scripts with backup and push commands, for example,</p>
 
     <p><b>/root/backup_default.sh</b></p>

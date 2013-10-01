@@ -10,5 +10,5 @@ $CONNECTS=array('DEFAULT'=>array('scheme'=>'magic','pass'=>'423826','connect'=>'
 define('VERBOSE',0);
 define('DEBUG',1);
 $bkp_dir = '/repo/default.git/';#define a directory to store your git repo
-
+$LOGS_CONVERSION=array('from'=>"Windows-1251",'to'=>"utf-8");
 ?>
