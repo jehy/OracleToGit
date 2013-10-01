@@ -27,6 +27,7 @@ if (!function_exists('convert_db_encoding'))
 {
   function convert_db_encoding($smth)
   {
+    global $LOGS_CONVERSION;
     if ($LOGS_CONVERSION['to'] && $LOGS_CONVERSION['from'])
     {
       if (is_array($smth))
@@ -35,12 +36,17 @@ if (!function_exists('convert_db_encoding'))
           $smth[$key] = convert_db_encoding($val);
       }
       else
+      {
+        #echo"\n". 'converting string '.$smth.' to '.$LOGS_CONVERSION['to'].' from '.$LOGS_CONVERSION['from'];
         $smth = mb_convert_encoding($smth, $LOGS_CONVERSION['to'], $LOGS_CONVERSION['from']);
+        #echo "\ngot ".$smth;
+      }
       return $smth;
     }
 
     else
     {
+        #echo "\n no conversion";
       return $smth;
     }
   }
