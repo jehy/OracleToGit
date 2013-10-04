@@ -24,33 +24,6 @@ $path = 'ext/geshi/geshi/';
             background-color: #f5f5f5;
         }
 
-        .form-signin {
-            max-width: 300px;
-            padding: 19px 29px 29px;
-            margin: 0 auto 20px;
-            background-color: #fff;
-            border: 1px solid #e5e5e5;
-            -webkit-border-radius: 5px;
-            -moz-border-radius: 5px;
-            border-radius: 5px;
-            -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-            -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-        }
-
-        .form-signin .form-signin-heading,
-        .form-signin .checkbox {
-            margin-bottom: 10px;
-        }
-
-        .form-signin input[type="text"],
-        .form-signin input[type="password"] {
-            font-size: 16px;
-            height: auto;
-            margin-bottom: 15px;
-            padding: 7px 9px;
-        }
-
     </style>
     <link href="ext/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -63,13 +36,13 @@ $path = 'ext/geshi/geshi/';
 <body>
 
 <div class="container">
-    <h1>0. Requirements.</h1>
+    <h2>0. Requirements.</h2>
 
     <p>You need the following software:
     <ul>
-        <li>Linux server in local network with Apache, PHP 5 and git installed. PHP will need to be able to connect to
-            your Oracle database (set up oci library for php).
-        </li>
+    <li>Linux server with Apache, PHP 5 and git installed. PHP has to be able to connect to
+        your Oracle database (set up oci library for php).
+    </li>
         <li>Oracle Database server</li>
     </ul>
 
@@ -80,7 +53,7 @@ $path = 'ext/geshi/geshi/';
         <li>DBA priviledges on database in question</li>
     </ul>
     </p>
-    <h1>1. Schema.</h1>
+    <h2>1. Schema.</h2>
 
     <p>
         First, you will have to run some administrative queries manually. Those are dangerous and can kill kittens - so
@@ -101,7 +74,7 @@ $path = 'ext/geshi/geshi/';
   echo $geshi->parse_code();
   ?>
 
-    <h1>2. Log table.</h1>
+    <h2>2. Log table.</h2>
 
     <p>We will use table to store data about changes, happening to your database.</p>
 
@@ -115,7 +88,7 @@ $path = 'ext/geshi/geshi/';
   ?>
 
 
-    <h1>3. DDL trigger.</h1>
+    <h2>3. DDL trigger.</h2>
 
     <p>Now we're beginning really dangerous staff - trigger for all DDL operations in database. If this trigger fucks
         up, your ddl operations will too. If you feel that something's off - disable the trigger!</p>
@@ -126,12 +99,12 @@ $path = 'ext/geshi/geshi/';
 // and simply dump the code!
   echo $geshi->parse_code();
   ?>
-    <h1>4. Test!</h1>
+    <h2>4. Test!</h2>
 
     <p>Seems like you're ready to go! Try making random DDL query, and see how it is reflected in Magic.ddllog
         table.</p>
 
-    <h1>5. Configure script</h1>
+    <h2>5. Configure script</h2>
 
     <p>Now we need to set up connection settings for PHP script.</p>
 
@@ -146,7 +119,7 @@ $path = 'ext/geshi/geshi/';
   echo $geshi->parse_code();
   ?>
 
-    <h1>6. Set up Git repo for your database</h1>
+    <h2>6. Set up Git repo for your database</h2>
 
     <p>Now you need to associate your backup directory with the git repository. Init repository, make first clean commit
         and push it to remote server. Please, use remote repository (github, bitbucket or any other) with "master"
@@ -158,16 +131,17 @@ $path = 'ext/geshi/geshi/';
 // and simply dump the code!
       echo $geshi->parse_code();
       ?>
-
+        Also, make sure that your push can be done without entering login and password. To accomplish it, you can store
+        login and password locally, or use SSH keys (that's the best).
     </p>
 
 
-    <h1>7. Set up permissions</h1>
+    <h2>7. Set up permissions</h2>
 
     <p>Allow PHP to write to "logs" directory and to backup directory (which you chose in settings.php file).</p>
 
 
-    <h1>8. Primary export</h1>
+    <h2>8. Primary export</h2>
 
     <p>Yup, at last we're ready to export your database source code!</p>
 
@@ -180,14 +154,14 @@ $path = 'ext/geshi/geshi/';
   echo $geshi->parse_code();
   ?>
 
-    <h1>9. Secondary export</h1>
+    <h2>9. Secondary export</h2>
 
     <p>Secondary export should be quick but you need to check if it works okay.</p>
 
     <p>Just repeat the same command you used for primary export.</p>
 
 
-    <h1>10. Push your repo to remote repositary</h1>
+    <h2>10. Push your repo to remote repositary</h2>
 
   <?
   $query = 'php "/web/oracle2git/push.php" "default"';
@@ -199,7 +173,7 @@ $path = 'ext/geshi/geshi/';
 
     <p>It should work okay if you correctly completed step 6.</p>
 
-    <h1>11. Set up regular export</h1>
+    <h2>11. Set up regular export</h2>
 
     <p>Now you just need to set up a crontab script to regularly launch secondary export script and push script. Those
         are represented as two different scripts because obviously you don't need to sync as often as you update your
@@ -238,7 +212,7 @@ php /web/oracle2git/push.php default';
   echo $geshi->parse_code();
   ?>
 
-    <h1>Ready!</h1>
+    <h2>Ready!</h2>
 </div>
 
 </body>
