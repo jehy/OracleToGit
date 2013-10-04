@@ -36,6 +36,9 @@ $path = 'ext/geshi/geshi/';
 <body>
 
 <div class="container">
+
+    <h2>Welcome to OracleToGit installation guide!</h2>
+  <img src="images/fate_lit.jpg">
     <h2>0. Requirements.</h2>
 
     <p>You need the following software:
