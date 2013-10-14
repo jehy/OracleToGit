@@ -38,14 +38,15 @@ $path = 'ext/geshi/geshi/';
 <div class="container">
 
     <h2>Welcome to OracleToGit installation guide!</h2>
-  <img src="images/fate_lit.jpg">
+    <img src="images/fate_lit.jpg">
+
     <h2>0. Requirements.</h2>
 
     <p>You need the following software:
     <ul>
-    <li>Linux server with Apache, PHP 5 and git installed. PHP has to be able to connect to
-        your Oracle database (set up oci library for php).
-    </li>
+        <li>Linux server with Apache, PHP 5 and git installed. PHP has to be able to connect to
+            your Oracle database (set up oci library for php).
+        </li>
         <li>Oracle Database server</li>
     </ul>
 
@@ -109,7 +110,9 @@ $path = 'ext/geshi/geshi/';
 
     <h2>5. Configure script</h2>
 
-    <p>Now we need to set up connection settings for PHP script.</p>
+    <p>Now we need to set up connection settings for PHP script. You need to download project code from <a
+            href="https://github.com/jehy/OracleToGit">github repositary</a> ("Download ZIP" button in right lower
+        corner).</p>
 
     <p>In this example, all PHP code is extracted to application directory "/web/oracle2git". Copy the following code to
         new file "settings/default.php" and change default connect settings to the ones for your
