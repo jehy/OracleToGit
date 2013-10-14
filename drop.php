@@ -102,16 +102,18 @@ else
     $stid = oracle_query($sql, $conn, 1);
     $row = oci_fetch_row($stid);
     $new_last_event_id = $row[0];
-  if ($last_event_id)
   {
     add_log('Logging updates from event id ' . $last_event_id, 1);
-    $sql = "select object_type,owner,object_name from dba_objects where status='INVALID' and owner not in ('SYS','SYSMAN') and last_ddl_time>=
+    $sql = "select object_type,owner,object_name from dba_objects where status='INVALID' and owner not in ('SYS','SYSMAN')";
+    if ($last_event_id)
+      $sql.=" and last_ddl_time>=
 (select ddl_timestamp from magic.ddllog where event_id=:id)";
     #if ($test)
     #  $sql .= " and owner='EAS_RU_3_23'";
     #$sql .= " order by event_id";
     $stid = oci_parse($conn, $sql);
-    oci_bind_by_name($stid, ":id", $last_event_id);
+    if ($last_event_id)
+      oci_bind_by_name($stid, ":id", $last_event_id);
     oci_execute($stid);
   }
   $curr = 0; #just step counter to count % complete
