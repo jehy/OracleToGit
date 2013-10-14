@@ -77,7 +77,7 @@ if ($last_event_id)
 }
 else
 {
-  $sql = "select count(1) as cnt from dba_objects where status='INVALID' and dict_obj_owner not in ('SYS','SYSMAN')";
+  $sql = "select count(1) as cnt from dba_objects where status='INVALID' and owner not in ('SYS','SYSMAN')";
   #if ($test)
   #  $sql .= " where owner='EAS_RU_3_23'";
   add_log($sql, 1);
