@@ -53,12 +53,12 @@ $objectsobjects = array('PACKAGE', 'PACKAGE BODY', 'FUNCTION', 'PROCEDURE', 'TRI
 
 if (!$last_event_id)
 {
-  add_log('Exporting users', 1);
+  /*add_log('Exporting users', 1);
   update_users($bkp_dir);
   add_log('Exporting tablespaces', 1);
   update_tablespaces($bkp_dir);
   add_log('Exporting database links', 1);
-  update_dblinks($bkp_dir);
+  update_dblinks($bkp_dir);*/
 }
 
 #update updated
