@@ -48,8 +48,8 @@ else
 $lastuser = false;
 $lastaction = false;
 $accepted = array('PACKAGE', 'PACKAGE BODY', 'TABLE', 'VIEW', 'SYNONYM', 'JOB', 'FUNCTION', 'VIEW', 'TABLE', 'INDEX',
-  'SNAPSHOT', 'SEQUENCE', 'PROCEDURE', 'TRIGGER', 'TYPE');
-$objectsobjects = array('PACKAGE', 'PACKAGE BODY', 'FUNCTION', 'PROCEDURE', 'TRIGGER');
+  'SNAPSHOT', 'SEQUENCE', 'PROCEDURE', 'TRIGGER', 'TYPE','MATERIALIZED VIEW');
+$objectsobjects = array('PACKAGE', 'PACKAGE BODY', 'FUNCTION', 'PROCEDURE', 'TRIGGER','MATERIALIZED VIEW');
 
 if (!$last_event_id)
 {
@@ -66,7 +66,7 @@ if (!$last_event_id)
 if ($last_event_id)
 {
   $sql = "select count(1) from dba_objects where status='INVALID' and last_ddl_time>=
-(select ddl_timestamp from magic.ddllog where event_id=:id) and owner not in ('SYS','SYSMAN')";
+(select ddl_timestamp from magic.ddllog where event_id=:id) and owner not in ('SYS','SYSMAN') and last_ddl_time<sysdate-7";
   #if ($test)
   #  $sql .= " where owner='EAS_RU_3_23'";
   add_log($sql, 1);
@@ -77,7 +77,7 @@ if ($last_event_id)
 }
 else
 {
-  $sql = "select count(1) as cnt from dba_objects where status='INVALID' and owner not in ('SYS','SYSMAN')";
+  $sql = "select count(1) as cnt from dba_objects where status='INVALID' and owner not in ('SYS','SYSMAN') and last_ddl_time<sysdate-7";
   #if ($test)
   #  $sql .= " where owner='EAS_RU_3_23'";
   add_log($sql, 1);
@@ -107,7 +107,7 @@ else
     $sql = "select object_type,owner,object_name from dba_objects where status='INVALID' and owner not in ('SYS','SYSMAN')";
     if ($last_event_id)
       $sql.=" and last_ddl_time>=
-(select ddl_timestamp from magic.ddllog where event_id=:id)";
+(select ddl_timestamp from magic.ddllog where event_id=:id) and last_ddl_time<sysdate-7";
     #if ($test)
     #  $sql .= " and owner='EAS_RU_3_23'";
     #$sql .= " order by event_id";
