@@ -49,7 +49,7 @@ $lastuser = false;
 $lastaction = false;
 $accepted = array('PACKAGE', 'PACKAGE BODY', 'TABLE', 'VIEW', 'SYNONYM', 'JOB', 'FUNCTION', 'VIEW', 'TABLE', 'INDEX',
   'SNAPSHOT', 'SEQUENCE', 'PROCEDURE', 'TRIGGER', 'TYPE','MATERIALIZED VIEW');
-$objectsobjects = array('PACKAGE', 'PACKAGE BODY', 'FUNCTION', 'PROCEDURE', 'TRIGGER','MATERIALIZED VIEW');
+$objectsobjects = array('PACKAGE', 'PACKAGE BODY', 'FUNCTION', 'PROCEDURE', 'TRIGGER');
 
 if (!$last_event_id)
 {
@@ -175,6 +175,11 @@ else
       {
         update_synonyms($bkp_dir, $row['OWNER'], $this_update_begin_time);
         oracle_query('DROP SYNONYM '.$row['OWNER'].'.'.$row['OBJECT_NAME'], $conn, 1);
+      }
+      if ($type == 'materialized view')
+      {
+        update_matview($bkp_dir,$row['OBJECT_NAME'],$row['OWNER'], $this_update_begin_time);
+        oracle_query('DROP MATERIALIZED VIEW '.$row['OWNER'].'.'.$row['OBJECT_NAME'], $conn, 1);
       }
       if (in_array($row['OBJECT_TYPE'], $objectsobjects))
       {
