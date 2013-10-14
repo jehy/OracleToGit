@@ -66,7 +66,7 @@ if (!$last_event_id)
 if ($last_event_id)
 {
   $sql = "select count(1) from dba_objects where status='INVALID' and last_ddl_time>=
-(select ddl_timestamp from magic.ddllog where event_id=:id) and dict_obj_owner not in ('SYS','SYSMAN')";
+(select ddl_timestamp from magic.ddllog where event_id=:id) and owner not in ('SYS','SYSMAN')";
   #if ($test)
   #  $sql .= " where owner='EAS_RU_3_23'";
   add_log($sql, 1);
