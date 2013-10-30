@@ -117,12 +117,20 @@ else
     oci_execute($stid);
   }
   $curr = 0; #just step counter to count % complete
+  if(!is_array($exclude_drop_schemes))
+    $exclude_drop_schemes=array();
+  foreach($exclude_drop_schemes as $key=>$val)#in case user put scheme names in lowercase
+    $exclude_drop_schemes=strtoupper($val);
   while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS))
   {
     $curr++;
     if (!in_array($row['OBJECT_TYPE'], $accepted))
       continue;
-
+    if(in_array($row['OWNER'],$exclude_drop_schemes))
+    {
+      add_log('Not doing anyhing in schema '.$row['OWNER']);
+      continue;
+    }
 
     #$name = strtolower(convert_db_encoding($row['OBJECT_NAME'])); //it will be used in file names, should be UTF.
     $name = strtolower($row['OBJECT_NAME']); //it will be used in file names, should be UTF.
