@@ -120,7 +120,12 @@ else
   if(!is_array($exclude_drop_schemes))
     $exclude_drop_schemes=array();
   foreach($exclude_drop_schemes as $key=>$val)#in case user put scheme names in lowercase
-    $exclude_drop_schemes=strtoupper($val);
+    $exclude_drop_schemes[$key]=strtoupper($val);
+    
+  if(!is_array($exclude_drop_types))
+    $exclude_drop_types=array();
+  foreach($exclude_drop_types as $key=>$val)
+    $exclude_drop_types[$key]=strtoupper($val);
   while ($row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS))
   {
     $curr++;
@@ -129,6 +134,12 @@ else
     if(in_array($row['OWNER'],$exclude_drop_schemes))
     {
       add_log('Not doing anyhing in schema '.$row['OWNER']);
+      continue;
+    }
+    
+    if(in_array($row['OBJECT_TYPE'],$exclude_drop_types))
+    {
+      add_log('Not doing anyhing for object type '.$row['OBJECT_TYPE']);
       continue;
     }
 
