@@ -22,7 +22,7 @@ function set_log($fname)
   else
     $CURR_LOG = '';
 }
-
+/*
 if (!function_exists('convert_db_encoding'))
 {
   function convert_db_encoding($smth)
@@ -50,7 +50,7 @@ if (!function_exists('convert_db_encoding'))
       return $smth;
     }
   }
-}
+}*/
 
 function add_log($log, $show = 0)
 {
@@ -1200,7 +1200,7 @@ function send_git($bkp_dir, $command)
 {
 
   $message = 'cd ' . $bkp_dir . '&&' . $command;
-  $message = convert_db_encoding($message);
+  #$message = convert_db_encoding($message);
   add_log($message, 1);
   exec($message, $output);
   add_log(implode("\n<br>", $output), 1);
