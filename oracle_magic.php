@@ -22,6 +22,7 @@ function set_log($fname)
   else
     $CURR_LOG = '';
 }
+
 /*
 if (!function_exists('convert_db_encoding'))
 {
@@ -1200,7 +1201,11 @@ function send_git($bkp_dir, $command)
 {
 
   $message = 'cd ' . $bkp_dir . '&&' . $command;
+<<<<<<< HEAD
   #$message = convert_db_encoding($message);
+=======
+  $message = convert_db_encoding($message);
+>>>>>>> 8f621289f5aced753c62b3f3b4ccdd60e2081bf4
   add_log($message, 1);
   exec($message, $output);
   add_log(implode("\n<br>", $output), 1);
