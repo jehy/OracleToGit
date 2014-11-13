@@ -63,6 +63,7 @@ if (!$last_event_id)
 if ($last_event_id)
 {
   $sql = "select count(1) as cnt from magic.ddllog where sysevent in('COMMENT','GRANT','ALTER','CREATE','TRUNCATE','DROP') and event_id>:id and dict_obj_owner not in ('SYS','SYSMAN')";
+  $sql.=" and DICT_OBJ_NAME not like 'SYS_PLSQL_%'";//exclude system grants
   #if ($test)
   #  $sql .= " where owner='EAS_RU_3_23'";
   add_log($sql, 1);
