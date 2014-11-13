@@ -99,6 +99,7 @@ else
     $sql = "select event_id,dict_obj_type as object_type,dict_obj_owner as owner,dict_obj_name as object_name,host,
     os_user,obj_current_ddl as ddl from magic.ddllog where sysevent in('COMMENT','GRANT','ALTER','CREATE','TRUNCATE','REVOKE','DROP') and dict_obj_owner not in ('SYS','SYSMAN')
      and event_id>:id";
+    $sql.=" and DICT_OBJ_NAME not like 'SYS_PLSQL_%'";//exclude system grants
     #if ($test)
     #  $sql .= " and owner='EAS_RU_3_23'";
     $sql .= " order by event_id";
