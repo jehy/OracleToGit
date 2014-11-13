@@ -22,6 +22,7 @@ function set_log($fname)
   else
     $CURR_LOG = '';
 }
+
 /*
 if (!function_exists('convert_db_encoding'))
 {
