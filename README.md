@@ -28,7 +28,7 @@ Also, you need
 * Basic knowledge of Linux, PHP and Git
 * DBA priviledges on database in question
 
-###1. Schema
+### 1. Schema
 
 First, you will have to run some administrative queries manually.
 Those are dangerous and can kill kittens - so it is better to be
@@ -56,7 +56,7 @@ grant CREATE session TO MAGIC;
 grant unlimited tablespace TO MAGIC;
 ```
 
-###2. Log table
+### 2. Log table
 
 We will use table to store data about changes,
 happening to your database.
